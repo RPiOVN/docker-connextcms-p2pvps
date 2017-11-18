@@ -1,3 +1,8 @@
+openbazaar:
+  image: openbazaar/server
+  ports:
+   - "4002:4002"
+
 mongodb:
   image: mongo
   ports: 
@@ -13,9 +18,8 @@ connextcms:
   links:
     - mongodb
   ports:
-    - "3000:3000"
-    - "9229:9229"
-    - "9222:9222"
+    - "3000:3000"  # ConnextCMS serves website on this port
+    - "9229:9229"  # Node v8 inspector runs on this port
   volumes:
     - ./theme:/home/connextcms/theme
     - ./plugins:/home/connextcms/plugins
