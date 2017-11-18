@@ -1,0 +1,3 @@
+#!/bin/bash
+docker run --rm --name ob-server -p 4001:4001 -p 4002:4002 -p 9005:9005 -v tmp:/var/lib/openbazaar ob-server
+

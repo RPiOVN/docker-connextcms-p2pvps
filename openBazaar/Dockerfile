@@ -4,7 +4,14 @@ FROM golang:1.8.1
 #RUN apt-get -y update
 #RUN apt-get -y upgrade
 
-RUN git clone https://github.com/OpenBazaar/openbazaar-go
+# Install openbazaar-go server from source.
+WORKDIR /go/
+RUN export GOPATH=/go
+RUN go get github.com/OpenBazaar/openbazaar-go
+
+# Initialize openbazaar go
+WORKDIR /go/src/github.com/OpenBazaar/openbazaar-go
+RUN go run openbazaard.go init -d /var/lib/openbazaar -t
 
 #WORKDIR /go/src/github.com/OpenBazaar/openbazaar-go
 #COPY . .
@@ -13,9 +20,11 @@ RUN git clone https://github.com/OpenBazaar/openbazaar-go
 
 # Run stage - Import static binary, expose ports, set up volume, and run server
 #FROM scratch
-#EXPOSE 4001 4002 9005
-#VOLUME /var/lib/openbazaar
+EXPOSE 4001 4002 9005
+VOLUME /var/lib/openbazaar
 #COPY --from=0 /opt/openbazaard /opt/openbazaard
 #COPY --from=0 /etc/ssl/certs/ /etc/ssl/certs/
 #ENTRYPOINT ["/opt/openbazaard"]
-#CMD ["start", "-d", "/var/lib/openbazaar", "-t"]
+
+
+CMD ["go", "run", "openbazaard.go", "start", "-d", "/var/lib/openbazaar/", "-t"]
