@@ -1,3 +1,9 @@
+sshd-container:
+  image: sshd-container
+  ports:
+    - "6000-6200:6000-6200"
+  restart: always
+
 openbazaar:
   image: ob-server
   ports:
