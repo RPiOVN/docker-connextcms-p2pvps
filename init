@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir public
+mkdir theme
+mkdir theme/site-template-connextcms
+mv merge-site-plugin-files public/
