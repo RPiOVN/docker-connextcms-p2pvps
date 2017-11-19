@@ -1,12 +1,12 @@
-openbazaar:
-  image: ob-server
-  ports:
-   - "4001:4001"
-   - "4002:4002"
-   - "9005:9005"
-  volumes:
-   - ./openBazaar/data:/var/lib/openbazaar
-  restart: always
+#openbazaar:
+#  image: ob-server
+#  ports:
+#   - "4001:4001"
+#   - "4002:4002"
+#   - "9005:9005"
+#  volumes:
+#   - ./openBazaar/data:/var/lib/openbazaar
+#  restart: always
 
 mongodb:
   image: mongo
@@ -22,7 +22,7 @@ connextcms:
   dockerfile: Dockerfile
   links:
     - mongodb
-    - openbazaar
+#    - openbazaar
   ports:
     - "3001:3000"  # ConnextCMS serves website on this port
     - "9229:9229"  # Node v8 inspector runs on this port

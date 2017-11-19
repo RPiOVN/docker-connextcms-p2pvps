@@ -98,8 +98,6 @@ EXPOSE 9222
 #Dummy app just to get the container running with docker-compose.
 #You can then enter the container with command: docker exec -it <container ID> /bin/bash
 WORKDIR /home/connextcms
-RUN ./mergeandlaunch
-WORKDIR /home/connextcms/myCMS
 RUN npm install express
 RUN npm install dotenv
 RUN npm install keystone
@@ -107,14 +105,14 @@ RUN npm install express-handlebars
 RUN npm install underscore
 RUN npm install request
 RUN npm install request-promise
-CMD ["node", "dummyapp.js"]
+
+#RUN ./mergeandlaunch
+#WORKDIR /home/connextcms/myCMS
+#CMD ["node", "dummyapp.js"]
 
 
 #change directory where the mergeandlaunch script is located.
-#WORKDIR /home/connextcms
+WORKDIR /home/connextcms
 
 #Run the mergeandlaunch script before starting Keystone with node.
-#ENTRYPOINT ["./mergeandlaunch", "node", "keystone.js"]
-
-
-
+ENTRYPOINT ["./mergeandlaunch", "node", "keystone.js"]
