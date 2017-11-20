@@ -1,12 +1,18 @@
-#openbazaar:
-#  image: ob-server
+#sshd-container:
+#  image: sshd-container
 #  ports:
-#   - "4001:4001"
-#   - "4002:4002"
-#   - "9005:9005"
-#  volumes:
-#   - ./openBazaar/data:/var/lib/openbazaar
+#    - "6000-6200:6000-6200"
 #  restart: always
+
+openbazaar:
+  image: ob-server
+  ports:
+   - "4001:4001"
+   - "4002:4002"
+   - "9005:9005"
+  volumes:
+   - ./openBazaar/data:/var/lib/openbazaar
+  restart: always
 
 mongodb:
   image: mongo

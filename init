@@ -1,6 +1,13 @@
 #!/bin/bash
 
+chmod 775 finalsetup
+chmod 775 merge-site-plugin-files
+chmod 775 mergeandlaunch
+
+
 mkdir public
 mkdir theme
 mkdir theme/site-template-connextcms
 mv merge-site-plugin-files public/
+
+mkdir openBazaar/data
