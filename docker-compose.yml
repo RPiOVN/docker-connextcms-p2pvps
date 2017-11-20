@@ -1,8 +1,8 @@
-#sshd-container:
-#  image: sshd-container
-#  ports:
-#    - "6000-6200:6000-6200"
-#  restart: always
+sshd-container:
+  image: sshd-container
+  ports:
+    - "6000-6200:6000-6200"
+  restart: always
 
 openbazaar:
   image: ob-server
@@ -28,7 +28,7 @@ connextcms:
   dockerfile: Dockerfile
   links:
     - mongodb
-#    - openbazaar
+    - openbazaar
   ports:
     - "3001:3000"  # ConnextCMS serves website on this port
     - "9229:9229"  # Node v8 inspector runs on this port
