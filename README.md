@@ -35,20 +35,46 @@ running a $5 server for two months.
 shows how to do so on a Ubuntu system.
 
 3. Clone this repository in your home directory with the following command:
-`git clone https://github.com/skagitpublishing/docker-connextcms`
+`git clone https://github.com/RPiOVN/docker-connextcms-p2pvps`
 
-4. (Optional) Add any [plugins](http://connextcms.com/page/plugins) or your own customized [plugin-template](https://github.com/skagitpublishing/plugin-template-connextcms) 
-to the `plugins` directory. Or add your own
-customized [site-template](https://github.com/skagitpublishing/site-template-connextcms) 
-to the `theme` directory. Be sure to edit the `mergeandlaunch` script to execute each merge
-script required to merge your plugins and site files into [ConnextCMS Core](https://github.com/skagitpublishing/connextCMS) 
-at load time.
+* Enter the new `docker-connextcms-p2pvps` directory, then initialize the repository by running `./init`.
 
-5. Build the ConnextCMS docker container. The `--no-cache` option should be used to prevent issues with symbolic links.
+4.  Enter the `openBazaar` subdirectory.
+Build the OpenBazaar Docker images by running `./buildImage`.
+
+5. Enter the `docker-connextcms-p2pvps/sshd-container` directory and build that image with
+`./buildImage`.
+
+6. Enter the `docker-connextcms-p2pvps` directory and build the ConnextCMS docker container. 
+The `--no-cache` option should be used to prevent issues with symbolic links:
 `docker-compose build --no-cache`
 
-6. Bring ConnextCMS/KeystoneJS online by running the following command:
-`docker-compose up -d`
+7. Bring all the containers online by running the following command:
+`docker-compose up`. It will take a couple minutes. Wait until you see the following notice from KeystoneJS:
+```
+ ------------------------------------------------
+| KeystoneJS Started:
+| keystone4 is ready on http://0.0.0.0:3000
+| ------------------------------------------------  
+```
+
+8. The previous step will also initialize OpenBazaar. Bring the containers down by hitting `Ctrl-C`.
+Once back to a command line, run `docker-compose down` to clean up. Then navigate to the the `openBazaar` directory.
+
+9. Customize the config file and then copy it into the data directory with `sudo cp config data/`.
+The current config file has username/password set as `yourUsername/yourPassword`, and no SSL encryption
+on connection. Both of these should be updated.
+
+* Go back to the `docker-connextcms-p2pvps` directory and run the containers again with 
+`docker-compose up`. Verify that everything runs correctly. Then you can bring them back down
+ again with `docker-compose up -d`.
+ 
+* Go back to your home directory and clone the `p2pvps-server` repo. Compile the marketplace code
+with `npm install`. Then generate the site template with `./generateSiteTemplate`. Finally, copy the
+site template with `./uploadToConnextCMS`.
+
+* You can now bring the server online with one final `docker-compose up -d` in the `docker-connextcms-p2pvps`
+directory.
 
 Docker will then launch the ConnextCMS Docker image. At the end, KeystoneJS will be running on port 3000, 
 with ConnextCMS running with it. For additional information on how to setup a production server with this container,
