@@ -101,7 +101,31 @@ function checkNotifications() {
     var tmp = thisNotice.notification.slug.split('-');
     var deviceId = tmp[tmp.length-1];
 
-    // Get devicePrivateModel from server.
+    return deviceId;
+  })
+
+  // Get devicePrivateModel from server.
+  .then(deviceId => {
+    var options = {
+      method: 'GET',
+      uri: 'http://p2pvps.net/api/devicePrivateData/'+deviceId,
+      //body: listingData,
+      //json: true, // Automatically stringifies the body to JSON
+      //headers: {
+      //  'Authorization': apiCredentials
+      //},
+      //resolveWithFullResponse: true
+    };
+
+    rp(options)
+    .then(function (data) {
+      debugger;
+
+
+    })
+    .catch(err => {
+
+    })
   })
 
   // Fulfill order with login information.
@@ -111,7 +135,7 @@ function checkNotifications() {
 
   .catch(function (err) {
     debugger;
-    return res.apiError('Error communicating with local OpenBazaar Server!', err);
+    console.error('Error communicating with local OpenBazaar Server!', err);
   });
 }
 // Call checkNotifications() every 2 minutees.
