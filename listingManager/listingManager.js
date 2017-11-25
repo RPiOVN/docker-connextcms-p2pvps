@@ -55,7 +55,10 @@ console.log('Express started on port ' + port);
 function checkNotifications() {
   debugger;
 
+  // Higher scoped variables.
   var apiCredentials = getOBAuth();
+  var devicePublicData, devicePrivateData;
+  var thisNotice; // Will not stay here. Just for testing.
 
   var options = {
     method: 'GET',
@@ -68,7 +71,7 @@ function checkNotifications() {
     //resolveWithFullResponse: true
   };
 
-  rp(options)
+  return rp(options)
   .then(function (data) {
 
     var allNotifications = JSON.parse(data);
@@ -92,10 +95,13 @@ function checkNotifications() {
   // Process any unread notifications
   .then(notes => {
     debugger;
-    console.log(JSON.stringify(notes, null, 2));
+    //console.log(JSON.stringify(notes, null, 2));
 
     // For now, just assuming I have one order at a time.
-    var thisNotice = notes[0];
+    thisNotice = notes[0];
+
+    // Exit if the notice is not for an order.
+    if(thisNotice.notification.type != "order") return null;
 
     // Get device ID from listing
     var tmp = thisNotice.notification.slug.split('-');
@@ -104,11 +110,15 @@ function checkNotifications() {
     return deviceId;
   })
 
-  // Get devicePrivateModel from server.
+  // Get devicePublicModel from server.
   .then(deviceId => {
+    debugger;
+
+    if(deviceId == null) return null;
+
     var options = {
       method: 'GET',
-      uri: 'http://p2pvps.net/api/devicePrivateData/'+deviceId,
+      uri: 'http://p2pvps.net/api/devicePublicData/'+deviceId,
       //body: listingData,
       //json: true, // Automatically stringifies the body to JSON
       //headers: {
@@ -117,18 +127,80 @@ function checkNotifications() {
       //resolveWithFullResponse: true
     };
 
-    rp(options)
+    return rp(options)
     .then(function (data) {
       debugger;
 
+      data = JSON.parse(data);
 
+      devicePublicData = data.collection;
+      return devicePublicData.privateData;
     })
-    .catch(err => {
+  })
 
+  // Get the devicePrivateData from the server.
+  .then(privateDataId => {
+    debugger;
+
+    if(privateDataId == null) return null;
+
+    var options = {
+      method: 'GET',
+      uri: 'http://p2pvps.net/api/devicePrivateData/'+privateDataId,
+      //body: listingData,
+      //json: true, // Automatically stringifies the body to JSON
+      //headers: {
+      //  'Authorization': apiCredentials
+      //},
+      //resolveWithFullResponse: true
+    };
+
+    return rp(options)
+    .then(function (data) {
+      debugger;
+
+      data = JSON.parse(data);
+
+      devicePrivateData = data.collection;
+      return devicePrivateData;
     })
   })
 
   // Fulfill order with login information.
+  .then(val => {
+    debugger;
+
+    if(val == null) return null;
+
+    var notes =
+`Host: p2pvps.net
+Port: ${devicePrivateData.serverSSHPort}
+Login: ${devicePrivateData.deviceUserName}
+Password: ${devicePrivateData.devicePassword}
+`
+
+    var bodyData = {
+      orderId: thisNotice.notification.orderId,
+      note: notes
+    }
+
+    var options = {
+      method: 'POST',
+      uri: 'http://p2pvps.net:4002/ob/orderfulfillment',
+      body: bodyData,
+      json: true, // Automatically stringifies the body to JSON
+      headers: {
+        'Authorization': apiCredentials
+      },
+      //resolveWithFullResponse: true
+    };
+
+    return rp(options)
+    .then(function (data) {
+      debugger;
+      console.log(`OrderId ${thisNotice.notification.orderId} has been marked as fulfilled.`);
+    });
+  })
 
   // Mark unread notifications as read.
   // POST /ob/marknotificationsasread
