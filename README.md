@@ -1,8 +1,13 @@
 # docker-connextcms-p2pvps
 
-This repository is forked from the [docker-connextcms](https://github.com/christroutner/docker-connextcms) parent repository.
+This repository is a collection of Docker files, orchestrated to work together using Docker Compose,
+in order to support and run the [P2P VPS Server](https://github.com/RPiOVN/p2pvps-server). The software
+stack can be illustrated as below:
+
+![Software Stack](https://github.com/RPiOVN/p2pvps-server/blob/b1fd8e709f264db4a1d869e8939033ca39a895da/specifications/images/software-stack.jpg?raw=true "Software Stack")
+
+Note: This repository was originally forked from the [docker-connextcms](https://github.com/christroutner/docker-connextcms) parent repository.
 It upgrades the ConnextCMS docker container to use v8 of node.js.
-It also includes the [OpenBazaar Docker container](https://hub.docker.com/r/openbazaar/server/).
 
 ---
 
