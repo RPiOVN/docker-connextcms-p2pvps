@@ -234,4 +234,56 @@ function getOBAuth() {
 
 }
 
+// This function updates the expiration date of a devices devicePublicData model.
+function updateExpiration(deviceId) {
+  return new Promise(function(resolve, reject) {
+    debugger;
+
+    // Get the devicePublicData model.
+    var options = {
+      method: 'GET',
+      uri: '/api/devicePublicData/'+deviceId,
+    };
+    return rp(options)
+
+    // Update the model with a new expiration date.
+    .then(function (data) {
+      debugger;
+
+      const now = new Date();
+      const thirtyDays = 60000*60*24*30;
+      const expirationDate = new Date(now.getTime()+thirtyDays);
+      data.collection.expiration = expirationDate.toISOString();
+
+      // Update the model.
+      var options = {
+        method: 'POST',
+        uri: '/api/devicePublicData/'+deviceId+'/update',
+        body: data.collection,
+      };
+      return rp(options)
+
+      // Return the updated data.
+      .then(updatedData => {
+        debugger;
+        return resolve(updatedData);
+      })
+
+      .catch(err => {
+        throw err;
+      });
+    })
+
+    .catch(err => {
+      console.error('Error in updateExpiration: ', err);
+      return reject(err);
+    });
+
+  });
+}
+
 /**** END PROMISE AND UTILITY FUNCTIONS ****/
+
+module.exports = {
+  updateExpiration,
+};
