@@ -206,6 +206,8 @@ Password: ${devicePrivateData.devicePassword}
   // Mark unread notifications as read.
   // POST /ob/marknotificationsasread
 
+  // Add deviceId to the rentedList model.
+
   .catch(function (err) {
     debugger;
     console.error('Error communicating with local OpenBazaar Server!', err);
@@ -214,3 +216,8 @@ Password: ${devicePrivateData.devicePassword}
 // Call checkNotifications() every 2 minutees.
 var notificationTimer = setInterval(function() {checkNotifications();}, 120000);
 checkNotifications();
+
+
+// Check all listings in the OB market to ensure their connection is active.
+
+// Check all rented devices to ensure their connection is active.
