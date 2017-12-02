@@ -11,7 +11,7 @@ openbazaar:
    - "4002:4002"
    - "9005:9005"
   volumes:
-   - ./openBazaar/data:/var/lib/openbazaar
+   - ./open-bazaar/data:/var/lib/openbazaar
   restart: always
 
 mongodb:

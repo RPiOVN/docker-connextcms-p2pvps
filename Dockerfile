@@ -106,14 +106,14 @@ RUN npm install underscore
 RUN npm install request
 RUN npm install request-promise
 
-#WORKDIR /home/connextcms/
-#RUN ./mergeandlaunch
-#WORKDIR /home/connextcms/myCMS
-#CMD ["node", "dummyapp.js"]
+WORKDIR /home/connextcms/
+RUN ./mergeandlaunch
+WORKDIR /home/connextcms/myCMS
+CMD ["node", "dummyapp.js"]
 
 
 #change directory where the mergeandlaunch script is located.
-WORKDIR /home/connextcms
+#WORKDIR /home/connextcms
 
 #Run the mergeandlaunch script before starting Keystone with node.
-ENTRYPOINT ["./mergeandlaunch", "node", "keystone.js"]
+#ENTRYPOINT ["./mergeandlaunch", "node", "keystone.js"]
