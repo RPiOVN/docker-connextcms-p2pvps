@@ -206,6 +206,13 @@ Password: ${devicePrivateData.devicePassword}
   // Mark unread notifications as read.
   // POST /ob/marknotificationsasread
 
+  // Update the expiration date.
+  .then(() => {
+    debugger;
+    return util.updateExpiration(devicePublicData._id);
+  })
+
+
   // Add deviceId to the rentedList model.
 
   .catch(function (err) {

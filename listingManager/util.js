@@ -2,6 +2,7 @@
 
 const rp = require('request-promise');
 
+// Generate an auth key for the header.Required fall all OpenBazaar API calls.
 function getOBAuth() {
   //debugger;
 
