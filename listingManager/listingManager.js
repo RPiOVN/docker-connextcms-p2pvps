@@ -212,6 +212,9 @@ Password: ${devicePrivateData.devicePassword}
   // Update the expiration date.
   .then(() => {
     debugger;
+
+    if(devicePublicData === undefined) return null;
+
     return util.updateExpiration(devicePublicData._id);
   })
 
