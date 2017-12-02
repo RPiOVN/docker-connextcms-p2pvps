@@ -7,24 +7,22 @@
 
 "use strict";
 
-const rp = require('request-promise');
+const rp = require("request-promise");
 
 // Generate an auth key for the header.Required fall all OpenBazaar API calls.
 function getOBAuth() {
   //debugger;
 
-  var clientID = "yourUsername";
-  var clientSecret = "yourPassword";
+  const clientID = "yourUsername";
+  const clientSecret = "yourPassword";
 
   //Encoding as per Centro API Specification.
-  var combinedCredential = clientID+':'+clientSecret;
+  const combinedCredential = `${clientID}:${clientSecret}`;
   //var base64Credential = window.btoa(combinedCredential);
-  var base64Credential = Buffer.from(combinedCredential).toString('base64');
-  var readyCredential = 'Basic '+base64Credential;
-
+  const base64Credential = Buffer.from(combinedCredential).toString("base64");
+  const readyCredential = `Basic ${base64Credential}`;
 
   return readyCredential;
-
 }
 
 // This function updates the expiration date of a devices devicePublicData model.
@@ -33,96 +31,87 @@ function updateExpiration(deviceId) {
     debugger;
 
     // Get the devicePublicData model.
-    var options = {
-      method: 'GET',
-      uri: 'http://p2pvps.net/api/devicePublicData/'+deviceId,
+    const options = {
+      method: "GET",
+      uri: `http://p2pvps.net/api/devicePublicData/${deviceId}`,
       json: true,
     };
-    return rp(options)
+    return (rp(options)
+        // Update the model with a new expiration date.
+        .then(function(data) {
+          debugger;
 
-    // Update the model with a new expiration date.
-    .then(function (data) {
-      debugger;
+          const now = new Date();
+          const thirtyDays = 60000 * 60 * 24 * 30;
+          const expirationDate = new Date(now.getTime() + thirtyDays);
+          data.collection.expiration = expirationDate.toISOString();
 
-      const now = new Date();
-      const thirtyDays = 60000*60*24*30;
-      const expirationDate = new Date(now.getTime()+thirtyDays);
-      data.collection.expiration = expirationDate.toISOString();
+          // Update the model.
+          const options = {
+            method: "POST",
+            uri: `http://p2pvps.net/api/devicePublicData/${deviceId}/update`,
+            body: data.collection,
+            json: true,
+          };
+          return (rp(options)
+              // Return success or failure.
+              .then(updatedData => {
+                debugger;
 
-      // Update the model.
-      var options = {
-        method: 'POST',
-        uri: 'http://p2pvps.net/api/devicePublicData/'+deviceId+'/update',
-        body: data.collection,
-        json: true,
-      };
-      return rp(options)
+                // Verify that the returned value contains the new date.
+                if (updatedData.collection.expiration) return resolve(true);
+                return resolve(false);
+              })
 
-      // Return success or failure.
-      .then(updatedData => {
-        debugger;
+              .catch(err => {
+                throw err;
+              }) );
+        })
 
-        // Verify that the returned value contains the new date.
-        if(updatedData.collection.expiration)
-          return resolve(true);
-        else
-          return resolve(false);
-
-      })
-
-      .catch(err => {
-        throw err;
-      });
-    })
-
-    .catch(err => {
-      console.error('Error in updateExpiration: ', err);
-      return reject(err);
-    });
-
+        .catch(err => {
+          console.error("Error in updateExpiration: ", err);
+          return reject(err);
+        }) );
   });
 }
 
 // This function gets all the notifications from the OB server.
 // It returns a Promise that resolves to an array of new notifications.
 function getOBNotifications(config) {
+  const options = {
+    method: "GET",
+    uri: "http://p2pvps.net:4002/ob/notifications",
+    //body: listingData,
+    json: true, // Automatically stringifies the body to JSON
+    headers: {
+      Authorization: config.apiCredentials,
+    },
+    //resolveWithFullResponse: true
+  };
 
-    var options = {
-      method: 'GET',
-      uri: 'http://p2pvps.net:4002/ob/notifications',
-      //body: listingData,
-      json: true, // Automatically stringifies the body to JSON
-      headers: {
-        'Authorization': config.apiCredentials
-      },
-      //resolveWithFullResponse: true
-    };
+  return rp(options).then(function(data) {
+    const allNotifications = data;
+    const newNotifications = [];
 
-    return rp(options)
-    .then(function (data) {
+    // Exit if no new notifications.
+    if (allNotifications.unread === 0) return newNotifications;
 
-      var allNotifications = data;
-      var newNotifications = [];
+    debugger;
 
-      // Exit if no new notifications.
-      if(allNotifications.unread == 0) return newNotifications;
+    // Read through all notifications and return any that are marked unread.
+    for (let i = 0; i < allNotifications.notifications.length; i++) {
+      if (!allNotifications.notifications[i].read)
+        newNotifications.push(allNotifications.notifications[i]);
+    }
 
-      debugger;
-
-      // Read through all notifications and return any that are marked unread.
-      for(var i=0; i < allNotifications.notifications.length; i++) {
-        if(!allNotifications.notifications[i].read) {
-          newNotifications.push(allNotifications.notifications[i]);
-        }
-      }
-
-      return newNotifications;
+    return newNotifications;
+  });
 }
 
 function getDevicePublicModel(deviceId) {
-  var options = {
-    method: 'GET',
-    uri: 'http://p2pvps.net/api/devicePublicData/'+deviceId,
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/devicePublicData/${deviceId}`,
     //body: listingData,
     json: true, // Automatically stringifies the body to JSON
     //headers: {
@@ -131,8 +120,7 @@ function getDevicePublicModel(deviceId) {
     //resolveWithFullResponse: true
   };
 
-  return rp(options)
-  .then(function (data) {
+  return rp(options).then(function(data) {
     debugger;
 
     //data = data;
@@ -140,11 +128,12 @@ function getDevicePublicModel(deviceId) {
     //devicePublicData = data.collection;
     //return devicePublicData.privateData;
     return data.collection;
-  })
+  });
 }
 
 module.exports = {
   getOBAuth,
   updateExpiration,
   getOBNotifications,
+  getDevicePublicModel,
 };
