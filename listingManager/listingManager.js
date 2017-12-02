@@ -61,44 +61,17 @@ function checkNotifications() {
   var devicePublicData, devicePrivateData;
   var thisNotice; // Will not stay here. Just for testing.
 
-  var options = {
-    method: 'GET',
-    uri: 'http://p2pvps.net:4002/ob/notifications',
-    //body: listingData,
-    //json: true, // Automatically stringifies the body to JSON
-    headers: {
-      'Authorization': apiCredentials
-    },
-    //resolveWithFullResponse: true
+  var config = {
+    apiCredentials: apiCredentials
   };
 
-  return rp(options)
-  .then(function (data) {
-
-    var allNotifications = JSON.parse(data);
-    var newNotifications = [];
-
-    // Exit if no new notifications.
-    if(allNotifications.unread == 0) return newNotifications;
-
-    debugger;
-
-    // Read through all notifications and save any that are unread.
-    for(var i=0; i < allNotifications.notifications.length; i++) {
-      if(!allNotifications.notifications[i].read) {
-        newNotifications.push(allNotifications.notifications[i]);
-      }
-    }
-
-    return newNotifications;
-  })
+  // Get new notifications.
+  util.getOBNotifications(config)
 
   // Process any unread notifications
   .then(notes => {
 
-    //console.log(JSON.stringify(notes, null, 2));
-
-    // For now, just assuming I have one order at a time.
+    // For now, assuming I have one order at a time.
     thisNotice = notes[0];
 
     // Exit if no notices were found.
@@ -116,32 +89,19 @@ function checkNotifications() {
     return deviceId;
   })
 
-  // Get devicePublicModel from server.
+  // Get devicePublicModel from the server.
   .then(deviceId => {
 
     if(deviceId == null) return null;
 
     debugger;
 
-    var options = {
-      method: 'GET',
-      uri: 'http://p2pvps.net/api/devicePublicData/'+deviceId,
-      //body: listingData,
-      //json: true, // Automatically stringifies the body to JSON
-      //headers: {
-      //  'Authorization': apiCredentials
-      //},
-      //resolveWithFullResponse: true
-    };
+    return util.getDevicePublicModel(deviceId);
 
-    return rp(options)
-    .then(function (data) {
-      debugger;
-
-      data = JSON.parse(data);
-
-      devicePublicData = data.collection;
-      return devicePublicData.privateData;
+    // Save the device data to a higher scoped variable.
+    .then(publicData => {
+      devicePublicData = publicData;
+      return publicData.privateData; // Return the ID for the devicePrivateModel
     })
   })
 
