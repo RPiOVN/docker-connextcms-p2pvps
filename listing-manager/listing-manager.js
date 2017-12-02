@@ -79,7 +79,7 @@ function checkNotifications() {
       // Exit if the notice is not for an order.
       if (thisNotice.notification.type !== "order") return null;
 
-      debugger;
+      //debugger;
 
       // Get device ID from listing
       const tmp = thisNotice.notification.slug.split("-");
@@ -91,7 +91,7 @@ function checkNotifications() {
     // Get devicePublicModel from the server.
     .then(deviceId => {
       if (deviceId == null) return null;
-      debugger;
+      //debugger;
 
       return util
         .getDevicePublicModel(deviceId)
@@ -108,7 +108,7 @@ function checkNotifications() {
     // Get the devicePrivateData from the server.
     .then(privateDataId => {
       if (privateDataId == null) return null;
-      debugger;
+      //debugger;
 
       return util
         .getDevicePrivateModel(privateDataId)
@@ -123,7 +123,7 @@ function checkNotifications() {
     .then(privateData => {
       if (privateData == null) return null;
 
-      debugger;
+      //debugger;
 
       const config = {
         devicePrivateData: privateData,
@@ -141,11 +141,17 @@ function checkNotifications() {
     .then(() => {
       if (devicePublicData === undefined) return null;
 
-      debugger;
+      //debugger;
       return util.updateExpiration(devicePublicData._id);
     })
 
     // Add deviceId to the rentedList model.
+    .then(() => {
+      if (devicePublicData === undefined) return null;
+
+      debugger;
+      util.addRentedDevice(devicePublicData._id);
+    })
 
     .catch(function(err) {
       debugger;

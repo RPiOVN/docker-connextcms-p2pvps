@@ -182,6 +182,54 @@ Password: ${config.devicePrivateData.devicePassword}
     });
 }
 
+// This function adds a deviceId to the rentedDevice list model.
+function addRentedDevice(deviceId) {
+  debugger;
+
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/rentedDevices/add/${deviceId}`,
+    json: true, // Automatically stringifies the body to JSON
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+
+      if (!data.success) throw `Could not add device ${deviceId} to rentedDevices list model.`;
+
+      return true;
+    })
+    .catch(err => {
+      console.error(`Could not add device ${deviceId} to rentedDevices list model.`);
+      throw err;
+    });
+}
+
+// This function removes a deviceId from the rentedDevices list model
+function removeRentedDevice(deviceId) {
+  debugger;
+
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/rentedDevices/remove/${deviceId}`,
+    json: true, // Automatically stringifies the body to JSON
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+
+      if (!data.success) throw `Could not remove device ${deviceId} from rentedDevices list model.`;
+
+      return true;
+    })
+    .catch(err => {
+      console.error(`Could not remove device ${deviceId} from rentedDevices list model.`);
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
@@ -189,4 +237,6 @@ module.exports = {
   getDevicePublicModel,
   getDevicePrivateModel,
   fulfillOBOrder,
+  addRentedDevice,
+  removeRentedDevice,
 };
