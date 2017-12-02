@@ -101,6 +101,9 @@ function checkNotifications() {
     // For now, just assuming I have one order at a time.
     thisNotice = notes[0];
 
+    // Exit if no notices were found.
+    if(thisNotice == undefined) return null;
+
     // Exit if the notice is not for an order.
     if(thisNotice.notification.type != "order") return null;
 
