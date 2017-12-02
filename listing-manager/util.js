@@ -142,10 +142,54 @@ function getDevicePrivateModel(privateId) {
   });
 }
 
+// This function marks an order on OB as 'Fulfilled'. It send the login information needed
+// by the renter to log into the Client device.
+function fulfillOBOrder(config) {
+  debugger;
+
+  if (config.devicePrivateData == null) return null;
+
+  debugger;
+
+  const notes = `Host: p2pvps.net
+Port: ${config.devicePrivateData.serverSSHPort}
+Login: ${config.devicePrivateData.deviceUserName}
+Password: ${config.devicePrivateData.devicePassword}
+`;
+
+  const bodyData = {
+    orderId: config.obNotice.notification.orderId,
+    note: notes,
+  };
+
+  const options = {
+    method: "POST",
+    uri: "http://p2pvps.net:4002/ob/orderfulfillment",
+    body: bodyData,
+    json: true, // Automatically stringifies the body to JSON
+    headers: {
+      Authorization: config.apiCredentials,
+    },
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+      console.log(
+        `OrderId ${config.thisNotice.notification.orderId} has been marked as fulfilled.`
+      );
+      return true;
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
   getOBNotifications,
   getDevicePublicModel,
   getDevicePrivateModel,
+  fulfillOBOrder,
 };

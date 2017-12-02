@@ -114,43 +114,24 @@ function checkNotifications() {
         .getDevicePrivateModel(privateDataId)
 
         .then(privateData => {
-          devicePrivateData = privateData;
+          devicePrivateData = privateData; // Save the device data to a higher scoped variable.
           return privateData;
         });
     })
 
     // Fulfill order with login information.
-    .then(val => {
-      if (val == null) return null;
+    .then(privateData => {
+      if (privateData == null) return null;
 
       debugger;
 
-      const notes = `Host: p2pvps.net
-Port: ${devicePrivateData.serverSSHPort}
-Login: ${devicePrivateData.deviceUserName}
-Password: ${devicePrivateData.devicePassword}
-`;
-
-      const bodyData = {
-        orderId: thisNotice.notification.orderId,
-        note: notes,
+      const config = {
+        privateData: privateData,
+        obNotice: thisNotice,
+        apiCredentials: apiCredentials,
       };
 
-      const options = {
-        method: "POST",
-        uri: "http://p2pvps.net:4002/ob/orderfulfillment",
-        body: bodyData,
-        json: true, // Automatically stringifies the body to JSON
-        headers: {
-          Authorization: apiCredentials,
-        },
-        //resolveWithFullResponse: true
-      };
-
-      return rp(options).then(function(data) {
-        debugger;
-        console.log(`OrderId ${thisNotice.notification.orderId} has been marked as fulfilled.`);
-      });
+      return util.fulfillOBOrder(config);
     })
 
     // Mark unread notifications as read.
