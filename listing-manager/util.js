@@ -145,8 +145,6 @@ function getDevicePrivateModel(privateId) {
 // This function marks an order on OB as 'Fulfilled'. It send the login information needed
 // by the renter to log into the Client device.
 function fulfillOBOrder(config) {
-  debugger;
-
   if (config.devicePrivateData == null) return null;
 
   debugger;
@@ -181,6 +179,7 @@ Password: ${config.devicePrivateData.devicePassword}
       return true;
     })
     .catch(err => {
+      debugger;
       throw err;
     });
 }

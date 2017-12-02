@@ -126,7 +126,7 @@ function checkNotifications() {
       debugger;
 
       const config = {
-        privateData: privateData,
+        devicePrivateData: privateData,
         obNotice: thisNotice,
         apiCredentials: apiCredentials,
       };
