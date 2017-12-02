@@ -147,4 +147,5 @@ module.exports = {
   updateExpiration,
   getOBNotifications,
   getDevicePublicModel,
+  getDevicePrivateModel,
 };
