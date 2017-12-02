@@ -108,25 +108,36 @@ function getOBNotifications(config) {
   });
 }
 
+// This function returns a devicePublicModel given the deviceId.
 function getDevicePublicModel(deviceId) {
   const options = {
     method: "GET",
     uri: `http://p2pvps.net/api/devicePublicData/${deviceId}`,
-    //body: listingData,
     json: true, // Automatically stringifies the body to JSON
-    //headers: {
-    //  'Authorization': apiCredentials
-    //},
-    //resolveWithFullResponse: true
+  };
+
+  return rp(options).then(function(data) {
+    //debugger;
+
+    if (data.collection === undefined) throw `No devicePublicModel with ID of ${deviceId}`;
+
+    return data.collection;
+  });
+}
+
+// This function returns a devicePrivateModel given ID for the model.
+function getDevicePrivateModel(privateId) {
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/devicePrivateData/${privateId}`,
+    json: true, // Automatically stringifies the body to JSON
   };
 
   return rp(options).then(function(data) {
     debugger;
 
-    //data = data;
+    if (data.collection === undefined) throw `No devicePrivateModel with ID of ${privateId}`;
 
-    //devicePublicData = data.collection;
-    //return devicePublicData.privateData;
     return data.collection;
   });
 }

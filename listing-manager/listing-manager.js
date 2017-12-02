@@ -91,49 +91,32 @@ function checkNotifications() {
     // Get devicePublicModel from the server.
     .then(deviceId => {
       if (deviceId == null) return null;
-
       debugger;
 
-      return (
-        util
-          .getDevicePublicModel(deviceId)
+      return util
+        .getDevicePublicModel(deviceId)
 
-          // Save the device data to a higher scoped variable.
-          .then(publicData => {
-            devicePublicData = publicData;
-            return publicData.privateData; // Return the ID for the devicePrivateModel
-          })
-          .catch(err => {
-            throw err;
-          })
-      );
+        .then(publicData => {
+          devicePublicData = publicData; // Save the device data to a higher scoped variable.
+          return publicData.privateData; // Return the ID for the devicePrivateModel
+        })
+        .catch(err => {
+          throw err;
+        });
     })
 
     // Get the devicePrivateData from the server.
     .then(privateDataId => {
       if (privateDataId == null) return null;
-
       debugger;
 
-      const options = {
-        method: "GET",
-        uri: `http://p2pvps.net/api/devicePrivateData/${privateDataId}`,
-        //body: listingData,
-        //json: true, // Automatically stringifies the body to JSON
-        //headers: {
-        //  'Authorization': apiCredentials
-        //},
-        //resolveWithFullResponse: true
-      };
+      return util
+        .getDevicePrivateModel(privateDataId)
 
-      return rp(options).then(function(data) {
-        debugger;
-
-        data = JSON.parse(data);
-
-        devicePrivateData = data.collection;
-        return devicePrivateData;
-      });
+        .then(privateData => {
+          devicePrivateData = privateData;
+          return privateData;
+        });
     })
 
     // Fulfill order with login information.
