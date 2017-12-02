@@ -95,7 +95,7 @@ function checkNotifications() {
 
   // Process any unread notifications
   .then(notes => {
-    debugger;
+
     //console.log(JSON.stringify(notes, null, 2));
 
     // For now, just assuming I have one order at a time.
@@ -107,6 +107,8 @@ function checkNotifications() {
     // Exit if the notice is not for an order.
     if(thisNotice.notification.type != "order") return null;
 
+    debugger;
+
     // Get device ID from listing
     var tmp = thisNotice.notification.slug.split('-');
     var deviceId = tmp[tmp.length-1];
@@ -116,9 +118,10 @@ function checkNotifications() {
 
   // Get devicePublicModel from server.
   .then(deviceId => {
-    debugger;
 
     if(deviceId == null) return null;
+
+    debugger;
 
     var options = {
       method: 'GET',
@@ -144,9 +147,10 @@ function checkNotifications() {
 
   // Get the devicePrivateData from the server.
   .then(privateDataId => {
-    debugger;
 
     if(privateDataId == null) return null;
+
+    debugger;
 
     var options = {
       method: 'GET',
@@ -172,9 +176,9 @@ function checkNotifications() {
 
   // Fulfill order with login information.
   .then(val => {
-    debugger;
-
     if(val == null) return null;
+
+    debugger;
 
     var notes =
 `Host: p2pvps.net
@@ -211,10 +215,10 @@ Password: ${devicePrivateData.devicePassword}
 
   // Update the expiration date.
   .then(() => {
-    debugger;
 
     if(devicePublicData === undefined) return null;
 
+    debugger;
     return util.updateExpiration(devicePublicData._id);
   })
 
