@@ -96,7 +96,7 @@ function checkNotifications() {
 
     debugger;
 
-    return util.getDevicePublicModel(deviceId);
+    return util.getDevicePublicModel(deviceId)
 
     // Save the device data to a higher scoped variable.
     .then(publicData => {
