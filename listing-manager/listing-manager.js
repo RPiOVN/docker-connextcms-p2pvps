@@ -137,7 +137,9 @@ function checkNotifications() {
     // Mark unread notifications as read.
     // POST /ob/marknotificationsasread
     .then(() => {
+      if (thisNotice === undefined) return null;
       debugger;
+
       const config = {
         apiCredentials: apiCredentials,
         obNotice: thisNotice,
