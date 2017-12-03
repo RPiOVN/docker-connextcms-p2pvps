@@ -258,7 +258,7 @@ function markNotificationAsRead(config) {
   return rp(options)
     .then(function(data) {
       debugger;
-      console.log(`OrderId ${noteId} has been marked as fulfilled.`);
+      console.log(`Notification ${noteId} has been marked as 'read'.`);
       return true;
     })
     .catch(err => {
