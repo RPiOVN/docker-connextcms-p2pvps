@@ -210,6 +210,7 @@ function checkRentedDevices() {
       console.error("Error running checkRentedDevices: ", err);
     });
 }
+checkRentedDevices();
 
 // Check all listings in the OB market to ensure their connection is active.
 function checkListedDevices() {
