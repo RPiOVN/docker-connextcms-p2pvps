@@ -320,7 +320,7 @@ function removeOBListing(deviceData) {
 
 // This function returns an array of devicePublicModel IDs stored in the rentedDevices model.
 function getRentedDevices() {
-  debugger;
+  //debugger;
 
   const options = {
     method: "GET",
@@ -330,7 +330,7 @@ function getRentedDevices() {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
 
       if (!data.collection[0]) throw `Could not find a list of rented devices on server.`;
 
