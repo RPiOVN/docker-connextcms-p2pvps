@@ -178,6 +178,7 @@ Password: ${config.devicePrivateData.devicePassword}
     })
     .catch(err => {
       debugger;
+      console.log('Error trying to mark order as "Fulfilled".');
       throw err;
     });
 }
@@ -230,6 +231,39 @@ function removeRentedDevice(deviceId) {
     });
 }
 
+// This function marks a notification as read in Open Bazaar.
+function markNotificationAsRead(config) {
+  debugger;
+
+  //const bodyData = {
+  //  orderId: config.obNotice.notification.orderId,
+  //  note: notes,
+  //};
+  const noteId = config.obNotice.notification.id;
+
+  const options = {
+    method: "POST",
+    uri: `http://p2pvps.net:4002/ob/marknotificatioinasread/${nodeId}`,
+    body: {},
+    json: true, // Automatically stringifies the body to JSON
+    headers: {
+      Authorization: config.apiCredentials,
+    },
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+      //console.log(`OrderId ${config.obNotice.notification.orderId} has been marked as fulfilled.`);
+      return true;
+    })
+    .catch(err => {
+      debugger;
+      console.log('Error trying to mark notificatioin as "Read".');
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
@@ -239,4 +273,5 @@ module.exports = {
   fulfillOBOrder,
   addRentedDevice,
   removeRentedDevice,
+  markNotificationAsRead,
 };
