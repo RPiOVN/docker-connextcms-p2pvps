@@ -215,7 +215,7 @@ function checkRentedDevices() {
         if (delay > MAX_DELAY) {
           debugger;
           // Set the device expiration to now.
-          return util.updateExpiration(devicePublicData._id, 0);
+          return util.updateExpiration(thisDeviceId, 0);
         }
       }
 
