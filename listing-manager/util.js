@@ -28,12 +28,11 @@ function getOBAuth() {
 // This function updates the expiration date of a devices devicePublicData model.
 function updateExpiration(deviceId, timeSelector) {
   return new Promise(function(resolve, reject) {
-    debugger;
+    //debugger;
 
     let targetTime = 0;
     switch (timeSelector) {
       case 0: // Now
-        debugger;
         targetTime = 0;
         break;
       case 10: // 2 minutes
@@ -345,6 +344,32 @@ function getRentedDevices() {
     });
 }
 
+// This function returns an array of listings in the store associated with this server.
+function getOBListings(config) {
+  debugger;
+
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net:4002/ob/listings`,
+    json: true, // Automatically stringifies the body to JSON
+    headers: {
+      Authorization: config.apiCredentials,
+    },
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+      //console.log(`Notification ${noteId} has been marked as 'read'.`);
+      return data;
+    })
+    .catch(err => {
+      debugger;
+      console.log("Error trying to get store listings.");
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
@@ -357,4 +382,5 @@ module.exports = {
   markNotificationAsRead,
   removeOBListing,
   getRentedDevices,
+  getOBListings,
 };
