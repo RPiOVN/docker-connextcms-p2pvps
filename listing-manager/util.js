@@ -247,7 +247,7 @@ function markNotificationAsRead(config) {
 
   const options = {
     method: "POST",
-    uri: `http://p2pvps.net:4002/ob/marknotificatioinasread`,
+    uri: `http://p2pvps.net:4002/ob/marknotificationasread/${noteId}`,
     body: {},
     json: true, // Automatically stringifies the body to JSON
     headers: {
