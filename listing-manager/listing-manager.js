@@ -214,8 +214,17 @@ function checkRentedDevices() {
         // If device has taken too long to check in.
         if (delay > MAX_DELAY) {
           debugger;
-          // Set the device expiration to now.
-          return util.updateExpiration(thisDeviceId, 0);
+
+          return (
+            util
+              // Set the device expiration to now.
+              .updateExpiration(thisDeviceId, 0)
+
+              // Remove the deviceId from the rentedDevices model on the server.
+              .then(() => {
+                return util.removeRentedDevice(thisDeviceId);
+              })
+          );
         }
       }
 
