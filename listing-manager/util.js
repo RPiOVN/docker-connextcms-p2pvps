@@ -346,7 +346,7 @@ function getRentedDevices() {
 
 // This function returns an array of listings in the store associated with this server.
 function getOBListings(config) {
-  debugger;
+  //debugger;
 
   const options = {
     method: "GET",
@@ -359,7 +359,7 @@ function getOBListings(config) {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
       //console.log(`Notification ${noteId} has been marked as 'read'.`);
       return data;
     })
