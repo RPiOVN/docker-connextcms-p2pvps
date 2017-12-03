@@ -259,17 +259,56 @@ function checkListedDevices() {
     apiCredentials: apiCredentials,
   };
 
-  // Get all the listing on this OpenBazaar store.
   return (
     util
+      // Get all the listing on this OpenBazaar store.
       .getOBListings(config)
 
       // Loop through each device.
-      .then(listings => {
+      .then(async listings => {
         debugger;
+
+        for (let i = 0; i < listings.length; i++) {
+          // Get device ID from listing slug
+          const thisSlug = listings[i].slug;
+          const tmp = thisSlug.split("-");
+          const thisDeviceId = tmp[tmp.length - 1];
+
+          // Get the devicePublicModel for the current listing.
+          const publicData = await util.getDevicePublicModel(thisDeviceId);
+
+          // Amount of time (mS) a device can go without checking in.
+          const MAX_DELAY = 60000 * 5; // 5 minutes.
+
+          const checkinTimeStamp = new Date(publicData.checkinTimeStamp);
+          const now = new Date();
+          const delay = now.getTime() - checkinTimeStamp.getTime();
+
+          // If device has taken too long to check in.
+          if (delay > MAX_DELAY) {
+            //debugger;
+
+            return (
+              util
+                // Set the device expiration to now.
+                .updateExpiration(thisDeviceId, 0)
+
+                // Remove the listing from the OB store.
+                .then(() => {
+                  debugger;
+                  return util.removeOBListing(publicData);
+                })
+
+                .then(() => {
+                  console.log(`OB listing for ${thisDeviceId} has been removed due to inactivity.`);
+                })
+            );
+          }
+        }
+
+        return true;
       })
 
-      // Get the devicePublicModel for the current listing.
       // If device has taken too long to check in.
       // Set the device expiration to now.
 
