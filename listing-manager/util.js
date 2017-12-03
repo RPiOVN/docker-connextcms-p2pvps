@@ -28,11 +28,12 @@ function getOBAuth() {
 // This function updates the expiration date of a devices devicePublicData model.
 function updateExpiration(deviceId, timeSelector) {
   return new Promise(function(resolve, reject) {
-    //debugger;
+    debugger;
 
     let targetTime = 0;
     switch (timeSelector) {
       case 0: // Now
+        debugger;
         targetTime = 0;
         break;
       case 10: // 2 minutes

@@ -188,7 +188,7 @@ checkNotifications();
 
 // Check all rented devices to ensure their connection is active.
 function checkRentedDevices() {
-  debugger;
+  //debugger;
 
   // Get a list of rented devices from the server.
   util
@@ -196,14 +196,13 @@ function checkRentedDevices() {
 
     // Loop through each device.
     .then(async rentedDevices => {
-      debugger;
+      //debugger;
 
       for (let i = 0; i < rentedDevices.length; i++) {
         const thisDeviceId = rentedDevices[i];
 
         // Get the devicePublicModel for this device.
         const publicData = await util.getDevicePublicModel(thisDeviceId);
-        debugger;
 
         // Amount of time (mS) a device can go without checking in.
         const MAX_DELAY = 60000 * 5; // 5 minutes.
@@ -214,6 +213,7 @@ function checkRentedDevices() {
 
         // If device has taken too long to check in.
         if (delay > MAX_DELAY) {
+          debugger;
           // Set the device expiration to now.
           return util.updateExpiration(devicePublicData._id, 0);
         }
