@@ -331,9 +331,9 @@ function getRentedDevices() {
     .then(function(data) {
       debugger;
 
-      //if (!data.success) throw `Could not add device ${deviceId} to rentedDevices list model.`;
+      if (!data.collection[0]) throw `Could not find a list of rented devices on server.`;
 
-      return data.collection;
+      return data.collection[0];
     })
     .catch(err => {
       debugger;
