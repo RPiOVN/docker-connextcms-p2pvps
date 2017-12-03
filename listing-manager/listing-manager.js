@@ -266,7 +266,7 @@ function checkListedDevices() {
 
       // Loop through each device.
       .then(async listings => {
-        debugger;
+        //debugger;
 
         for (let i = 0; i < listings.length; i++) {
           // Get device ID from listing slug
@@ -286,7 +286,7 @@ function checkListedDevices() {
 
           // If device has taken too long to check in.
           if (delay > MAX_DELAY) {
-            //debugger;
+            debugger;
 
             return (
               util
