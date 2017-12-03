@@ -317,6 +317,31 @@ function removeOBListing(deviceData) {
     });
 }
 
+// This function returns an array of devicePublicModel IDs stored in the rentedDevices model.
+function getRentedDevices() {
+  debugger;
+
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/rentedDevices/list`,
+    json: true, // Automatically stringifies the body to JSON
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+
+      //if (!data.success) throw `Could not add device ${deviceId} to rentedDevices list model.`;
+
+      return data.collection;
+    })
+    .catch(err => {
+      debugger;
+      console.error(`Could not retrieve the list of rented devices from the server.`);
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
@@ -328,4 +353,5 @@ module.exports = {
   removeRentedDevice,
   markNotificationAsRead,
   removeOBListing,
+  getRentedDevices,
 };

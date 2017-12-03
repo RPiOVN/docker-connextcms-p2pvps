@@ -194,12 +194,21 @@ function checkRentedDevices() {
   const downWindow = 60000 * 5; // 5 minutes
 
   // Get a list of rented devices from the server.
+  util
+    .getRentedDevices()
 
-  // Loop through each device.
+    // Loop through each device.
+    .then(rentedDevices => {
+      debugger;
+    })
+    // If device has taken too long to check in.
 
-  // If device has taken too long to check in.
+    // Set the device expiration to now.
 
-  // Set the device expiration to now.
+    .catch(err => {
+      debugger;
+      console.error("Error running checkRentedDevices: ", err);
+    });
 }
 
 // Check all listings in the OB market to ensure their connection is active.
