@@ -190,27 +190,48 @@ checkNotifications();
 function checkRentedDevices() {
   debugger;
 
-  // Amount of time (mS) a device can go without checking in.
-  const downWindow = 60000 * 5; // 5 minutes
-
   // Get a list of rented devices from the server.
   util
     .getRentedDevices()
 
     // Loop through each device.
-    .then(rentedDevices => {
+    .then(async rentedDevices => {
       debugger;
-    })
-    // If device has taken too long to check in.
 
-    // Set the device expiration to now.
+      for (let i = 0; i < rentedDevices.length; i++) {
+        const thisDeviceId = rentedDevices[i];
+
+        // Get the devicePublicModel for this device.
+        const publicData = await util.getDevicePublicModel(thisDeviceId);
+        debugger;
+
+        // Amount of time (mS) a device can go without checking in.
+        const MAX_DELAY = 60000 * 5; // 5 minutes.
+
+        const checkinTimeStamp = new Date(publicData.checkinTimeStamp);
+        const now = new Date();
+        const delay = now.getTime() - checkinTimeStamp.getTime();
+
+        // If device has taken too long to check in.
+        if (delay > MAX_DELAY) {
+          // Set the device expiration to now.
+          return util.updateExpiration(devicePublicData._id, 0);
+        }
+      }
+
+      return true;
+    })
 
     .catch(err => {
       debugger;
       console.error("Error running checkRentedDevices: ", err);
     });
 }
-checkRentedDevices();
+checkRentedDevices(); // Call the function immediately.
+// Call checkRentedDevices() every 2 minutees.
+const checkRentedDevicesTimer = setInterval(function() {
+  checkRentedDevices();
+}, 120000);
 
 // Check all listings in the OB market to ensure their connection is active.
 function checkListedDevices() {
