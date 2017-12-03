@@ -235,10 +235,6 @@ function removeRentedDevice(deviceId) {
 function markNotificationAsRead(config) {
   debugger;
 
-  //const bodyData = {
-  //  orderId: config.obNotice.notification.orderId,
-  //  note: notes,
-  //};
   const noteId = config.obNotice.notification.notificationId;
 
   const body = {
@@ -268,6 +264,33 @@ function markNotificationAsRead(config) {
     });
 }
 
+// This function remove the associated listing from the OB store.
+function removeOBListing(deviceData) {
+  debugger;
+
+  const obContractId = deviceData.obContract;
+
+  const options = {
+    method: "GET",
+    uri: `http://p2pvps.net/api/ob/removeMarketListing/${obContractId}`,
+    json: true, // Automatically stringifies the body to JSON
+  };
+
+  return rp(options)
+    .then(function(data) {
+      debugger;
+
+      if (!data.success)
+        throw `Could not remove device ${obContractId} from rentedDevices list model.`;
+
+      return true;
+    })
+    .catch(err => {
+      console.error(`Could not remove device ${obContractId} from rentedDevices list model.`);
+      throw err;
+    });
+}
+
 module.exports = {
   getOBAuth,
   updateExpiration,
@@ -278,4 +301,5 @@ module.exports = {
   addRentedDevice,
   removeRentedDevice,
   markNotificationAsRead,
+  removeOBListing,
 };

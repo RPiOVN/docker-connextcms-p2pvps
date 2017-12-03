@@ -167,6 +167,14 @@ function checkNotifications() {
       util.addRentedDevice(devicePublicData._id);
     })
 
+    // Remove the listing from the OB store.
+    .then(() => {
+      if (devicePublicData === undefined) return null;
+      debugger;
+
+      util.removeOBListing(devicePublicData);
+    })
+
     .catch(function(err) {
       debugger;
       console.error("Error communicating with local OpenBazaar Server!", err);
