@@ -53,7 +53,7 @@ app.listen(process.env.PORT || port);
 console.log(`Express started on port ${port}`);
 
 function checkNotifications() {
-  debugger;
+  //debugger;
 
   // Higher scoped variables.
   const apiCredentials = util.getOBAuth();
@@ -186,6 +186,27 @@ const notificationTimer = setInterval(function() {
 }, 120000);
 checkNotifications();
 
-// Check all listings in the OB market to ensure their connection is active.
-
 // Check all rented devices to ensure their connection is active.
+function checkRentedDevices() {
+  debugger;
+
+  // Amount of time (mS) a device can go without checking in.
+  const downWindow = 60000 * 5; // 5 minutes
+
+  // Get a list of rented devices from the server.
+
+  // Loop through each device.
+
+  // If device has taken too long to check in.
+
+  // Set the device expiration to now.
+}
+
+// Check all listings in the OB market to ensure their connection is active.
+function checkListedDevices() {
+  // Get all the listing on OpenBazaar
+  // Loop through each device.
+  // Get the devicePublicModel for the current listing.
+  // If device has taken too long to check in.
+  // Set the device expiration to now.
+}
