@@ -241,10 +241,14 @@ function markNotificationAsRead(config) {
   //};
   const noteId = config.obNotice.notification.notificationId;
 
+  const body = {
+    notificationId: noteId,
+  };
+
   const options = {
     method: "POST",
-    uri: `http://p2pvps.net:4002/ob/marknotificatioinasread/${noteId}`,
-    body: {},
+    uri: `http://p2pvps.net:4002/ob/marknotificatioinasread`,
+    body: body,
     json: true, // Automatically stringifies the body to JSON
     headers: {
       Authorization: config.apiCredentials,
