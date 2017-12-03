@@ -60,6 +60,9 @@ function checkNotifications() {
   let devicePublicData, devicePrivateData;
   let thisNotice; // Will not stay here. Just for testing.
 
+  const now = new Date();
+  console.log(`Listing Manager checking for new orders at ${now}`);
+
   const config = {
     apiCredentials: apiCredentials,
   };
