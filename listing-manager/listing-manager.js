@@ -318,4 +318,8 @@ function checkListedDevices() {
       })
   );
 }
-checkListedDevices();
+checkListedDevices(); // Call the function immediately.
+// Call checkRentedDevices() every 2 minutees.
+const checkListedDevicesTimer = setInterval(function() {
+  checkListedDevices();
+}, 120000);
