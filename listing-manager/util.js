@@ -26,9 +26,33 @@ function getOBAuth() {
 }
 
 // This function updates the expiration date of a devices devicePublicData model.
-function updateExpiration(deviceId) {
+function updateExpiration(deviceId, timeSelector) {
   return new Promise(function(resolve, reject) {
     //debugger;
+
+    let targetTime = 0;
+    switch (timeSelector) {
+      case 0: // Now
+        targetTime = 0;
+        break;
+      case 10: // 2 minutes
+        targetTime = 60000 * 2;
+        break;
+      case 20: // 1 hr
+        targetTime = 60000 * 60;
+        break;
+      case 30: // 1 day
+        targetTime = 60000 * 60 * 24;
+        break;
+      case 40: // 1 week
+        targetTime = 60000 * 60 * 24 * 7;
+        break;
+      case 50: // 1 month
+        targetTime = 60000 * 60 * 24 * 30;
+        break;
+      default:
+        targetTime = 0;
+    }
 
     // Get the devicePublicData model.
     const options = {
@@ -42,8 +66,7 @@ function updateExpiration(deviceId) {
           //debugger;
 
           const now = new Date();
-          const thirtyDays = 60000 * 60 * 24 * 30;
-          const expirationDate = new Date(now.getTime() + thirtyDays);
+          const expirationDate = new Date(now.getTime() + targetTime);
           data.collection.expiration = expirationDate.toISOString();
 
           // Update the model.

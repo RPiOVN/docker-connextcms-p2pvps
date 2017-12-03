@@ -156,7 +156,7 @@ function checkNotifications() {
       if (devicePublicData === undefined) return null;
 
       //debugger;
-      return util.updateExpiration(devicePublicData._id);
+      return util.updateExpiration(devicePublicData._id, 10);
     })
 
     // Add deviceId to the rentedList model.
