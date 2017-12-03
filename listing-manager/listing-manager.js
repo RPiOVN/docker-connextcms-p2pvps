@@ -226,8 +226,12 @@ function checkRentedDevices() {
               })
 
               .then(() => {
-                console.log(`Device ${thisDeviceId} has been removed from the rented devices list due to inactivity.`);
-              });
+                console.log(
+                  `Device ${
+                    thisDeviceId
+                  } has been removed from the rented devices list due to inactivity.`
+                );
+              })
           );
         }
       }
@@ -246,7 +250,6 @@ const checkRentedDevicesTimer = setInterval(function() {
   checkRentedDevices();
 }, 120000);
 
-
 // Check all listings in the OB market to ensure their connection is active.
 function checkListedDevices() {
   debugger;
@@ -256,20 +259,23 @@ function checkListedDevices() {
   };
 
   // Get all the listing on this OpenBazaar store.
-  return util.getOBListings(config)
+  return (
+    util
+      .getOBListings(config)
 
-  // Loop through each device.
-  .then(listings => {
-    debugger;
-  })
+      // Loop through each device.
+      .then(listings => {
+        debugger;
+      })
 
-  // Get the devicePublicModel for the current listing.
-  // If device has taken too long to check in.
-  // Set the device expiration to now.
+      // Get the devicePublicModel for the current listing.
+      // If device has taken too long to check in.
+      // Set the device expiration to now.
 
-  .catch(err => {
-    debugger;
-    console.error(`Error trying to check store listings: `,err);
-  })
+      .catch(err => {
+        debugger;
+        console.error(`Error trying to check store listings: `, err);
+      })
+  );
 }
 checkListedDevices();
