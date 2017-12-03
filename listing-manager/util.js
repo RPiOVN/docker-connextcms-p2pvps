@@ -333,7 +333,9 @@ function getRentedDevices() {
 
       if (!data.collection[0]) throw `Could not find a list of rented devices on server.`;
 
-      return data.collection[0];
+      const retVal = data.collection[0];
+
+      return retVal;
     })
     .catch(err => {
       debugger;
