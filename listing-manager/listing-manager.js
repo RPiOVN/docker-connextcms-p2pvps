@@ -52,11 +52,12 @@ app.use('/queryTracking', requestHandlers.queryTracking);
 app.listen(process.env.PORT || port);
 console.log(`Express started on port ${port}`);
 
+const apiCredentials = util.getOBAuth();
+
 function checkNotifications() {
   //debugger;
 
   // Higher scoped variables.
-  const apiCredentials = util.getOBAuth();
   let devicePublicData, devicePrivateData;
   let thisNotice; // Will not stay here. Just for testing.
 
