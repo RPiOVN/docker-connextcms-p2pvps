@@ -28,7 +28,7 @@ function getOBAuth() {
 // This function updates the expiration date of a devices devicePublicData model.
 function updateExpiration(deviceId) {
   return new Promise(function(resolve, reject) {
-    debugger;
+    //debugger;
 
     // Get the devicePublicData model.
     const options = {
@@ -39,7 +39,7 @@ function updateExpiration(deviceId) {
     return (rp(options)
         // Update the model with a new expiration date.
         .then(function(data) {
-          debugger;
+          //debugger;
 
           const now = new Date();
           const thirtyDays = 60000 * 60 * 24 * 30;
@@ -96,7 +96,7 @@ function getOBNotifications(config) {
     // Exit if no new notifications.
     if (allNotifications.unread === 0) return newNotifications;
 
-    debugger;
+    //debugger;
 
     // Read through all notifications and return any that are marked unread.
     for (let i = 0; i < allNotifications.notifications.length; i++) {
@@ -134,7 +134,7 @@ function getDevicePrivateModel(privateId) {
   };
 
   return rp(options).then(function(data) {
-    debugger;
+    //debugger;
 
     if (data.collection === undefined) throw `No devicePrivateModel with ID of ${privateId}`;
 
@@ -147,7 +147,7 @@ function getDevicePrivateModel(privateId) {
 function fulfillOBOrder(config) {
   if (config.devicePrivateData == null) return null;
 
-  debugger;
+  //debugger;
 
   const notes = `Host: p2pvps.net
 Port: ${config.devicePrivateData.serverSSHPort}
@@ -172,7 +172,7 @@ Password: ${config.devicePrivateData.devicePassword}
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
       console.log(`OrderId ${config.obNotice.notification.orderId} has been marked as fulfilled.`);
       return true;
     })
@@ -185,7 +185,7 @@ Password: ${config.devicePrivateData.devicePassword}
 
 // This function adds a deviceId to the rentedDevice list model.
 function addRentedDevice(deviceId) {
-  debugger;
+  //debugger;
 
   const options = {
     method: "GET",
@@ -195,7 +195,7 @@ function addRentedDevice(deviceId) {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
 
       if (!data.success) throw `Could not add device ${deviceId} to rentedDevices list model.`;
 
@@ -209,7 +209,7 @@ function addRentedDevice(deviceId) {
 
 // This function removes a deviceId from the rentedDevices list model
 function removeRentedDevice(deviceId) {
-  debugger;
+  //debugger;
 
   const options = {
     method: "GET",
@@ -219,7 +219,7 @@ function removeRentedDevice(deviceId) {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
 
       if (!data.success) throw `Could not remove device ${deviceId} from rentedDevices list model.`;
 
@@ -233,7 +233,7 @@ function removeRentedDevice(deviceId) {
 
 // This function marks a notification as read in Open Bazaar.
 function markNotificationAsRead(config) {
-  debugger;
+  //debugger;
 
   const noteId = config.obNotice.notification.notificationId;
 
@@ -253,7 +253,7 @@ function markNotificationAsRead(config) {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
       console.log(`Notification ${noteId} has been marked as 'read'.`);
       return true;
     })
@@ -266,7 +266,7 @@ function markNotificationAsRead(config) {
 
 // This function remove the associated listing from the OB store.
 function removeOBListing(deviceData) {
-  debugger;
+  //debugger;
 
   const obContractId = deviceData.obContract;
 
@@ -278,11 +278,14 @@ function removeOBListing(deviceData) {
 
   return rp(options)
     .then(function(data) {
-      debugger;
+      //debugger;
 
       if (!data.success)
         throw `Could not remove device ${obContractId} from rentedDevices list model.`;
 
+      console.log(
+        `Successfully removed listing on OB store with obContract model ID ${obContractId}`
+      );
       return true;
     })
     .catch(err => {
