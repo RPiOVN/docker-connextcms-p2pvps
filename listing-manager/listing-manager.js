@@ -242,7 +242,8 @@ function checkRentedDevices() {
 
     .catch(err => {
       debugger;
-      console.error("Error running checkRentedDevices: ", err);
+      console.error("Error running checkRentedDevices: ");
+      console.error(JSON.stringify(err, null, 2));
     });
 }
 checkRentedDevices(); // Call the function immediately.
