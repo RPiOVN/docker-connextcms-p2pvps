@@ -181,7 +181,7 @@ function checkNotifications() {
       console.error("Error communicating with local OpenBazaar Server!");
 
       if (err.cause) {
-        if (err.cause.code === "ECONNREFUSED")
+        if (err.cause.code === "ECONNREFUSED" || err.cause.code === "ECONNRESET")
           console.error("Connection to the server was refused. Will try again.");
         else console.error(JSON.stringify(err, null, 2));
       } else {
