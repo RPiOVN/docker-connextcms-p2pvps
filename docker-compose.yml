@@ -14,6 +14,10 @@ openbazaar:
    - ./open-bazaar/data:/var/lib/openbazaar
   restart: always
 
+listing-manager:
+  image: listing-manager
+  restart: always
+
 mongodb:
   image: mongo
   ports:
