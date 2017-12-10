@@ -293,6 +293,10 @@ function removeOBListing(deviceData) {
 
   const obContractId = deviceData.obContract;
 
+  // Validation/Error Handling
+  if (obContractId === undefined || obContractId === null)
+    throw `no obContract model associated with device ${deviceData._id}`;
+
   const options = {
     method: "GET",
     uri: `http://p2pvps.net/api/ob/removeMarketListing/${obContractId}`,
