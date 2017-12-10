@@ -50,7 +50,7 @@ app.use('/queryTracking', requestHandlers.queryTracking);
 
 /* Start up the Express web server */
 app.listen(process.env.PORT || port);
-console.log(`Express started on port ${port}`);
+console.log(`Listing Manager started on port ${port}`);
 
 const apiCredentials = util.getOBAuth();
 
