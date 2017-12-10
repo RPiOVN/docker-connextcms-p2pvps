@@ -316,6 +316,18 @@ function checkListedDevices() {
                 })
             );
           }
+
+          // If the device expiration date has been reached, remove the listing.
+          if (publicData.expiration < now) {
+            return util
+              .removeOBListing(publicData)
+
+              .then(() => {
+                console.log(
+                  `OB listing for ${thisDeviceId} has been removed due to expiration date reached.`
+                );
+              });
+          }
         }
 
         return true;
