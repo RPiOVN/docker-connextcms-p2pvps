@@ -332,6 +332,8 @@ function checkListedDevices() {
           if (err.cause.code === "ECONNREFUSED" || err.cause.code === "ECONNRESET")
             console.error("Connection to the server was refused. Will try again.");
           else console.error(JSON.stringify(err, null, 2));
+        } else if (err.statusCode === 502) {
+          console.error("Connection to the server was refused. Will try again.");
         } else {
           console.error(JSON.stringify(err, null, 2));
         }
