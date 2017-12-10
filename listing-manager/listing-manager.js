@@ -314,7 +314,8 @@ function checkListedDevices() {
 
       .catch(err => {
         debugger;
-        console.error(`Error trying to check store listings: `, err);
+        console.error(`Error trying to check store listings: `);
+        console.error(JSON.stringify(err, null, 2));
       })
   );
 }
