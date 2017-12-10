@@ -183,6 +183,7 @@ function checkNotifications() {
       if (err.cause) {
         if (err.cause.code === "ECONNREFUSED")
           console.error("Connection to the server was refused. Will try again.");
+        else console.error(JSON.stringify(err, null, 2));
       } else {
         console.error(JSON.stringify(err, null, 2));
       }
@@ -328,7 +329,7 @@ function checkListedDevices() {
         console.error(`Error trying to check store listings: `);
 
         if (err.cause) {
-          if (err.cause.code === "ECONNREFUSED")
+          if (err.cause.code === "ECONNREFUSED" || err.cause.code === "ECONNRESET")
             console.error("Connection to the server was refused. Will try again.");
           else console.error(JSON.stringify(err, null, 2));
         } else {
