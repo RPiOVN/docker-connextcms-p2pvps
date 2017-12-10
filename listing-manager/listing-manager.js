@@ -244,7 +244,10 @@ function checkRentedDevices() {
     .catch(err => {
       debugger;
       console.error("Error running checkRentedDevices: ");
-      console.error(JSON.stringify(err, null, 2));
+
+      if (err.statusCode === 502)
+        console.error("Connection to the server was refused. Will try again.");
+      else console.error(JSON.stringify(err, null, 2));
     });
 }
 checkRentedDevices(); // Call the function immediately.
