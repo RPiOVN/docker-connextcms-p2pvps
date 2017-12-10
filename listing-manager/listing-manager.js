@@ -250,9 +250,9 @@ function checkRentedDevices() {
 
     .catch(err => {
       debugger;
-      console.error("Error running checkRentedDevices: ");
+      console.error("Error running checkRentedDevices(): ");
 
-      if (err.statusCode === 502)
+      if (err.statusCode >= 500)
         console.error("Connection to the server was refused. Will try again.");
       else console.error(JSON.stringify(err, null, 2));
     });
