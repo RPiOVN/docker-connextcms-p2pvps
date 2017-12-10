@@ -178,7 +178,8 @@ function checkNotifications() {
 
     .catch(function(err) {
       debugger;
-      console.error("Error communicating with local OpenBazaar Server!", err);
+      console.error("Error communicating with local OpenBazaar Server!");
+      console.error(JSON.stringify(err, null, 2));
     });
 }
 // Call checkNotifications() every 2 minutees.
@@ -316,7 +317,14 @@ function checkListedDevices() {
       .catch(err => {
         debugger;
         console.error(`Error trying to check store listings: `);
-        console.error(JSON.stringify(err, null, 2));
+
+        if (err.cause) {
+          if (err.cause.code === "ECONNREFUSED")
+            console.error("Connection to the server was refused. Will try again.");
+          else console.error(JSON.stringify(err, null, 2));
+        } else {
+          console.error(JSON.stringify(err, null, 2));
+        }
       })
   );
 }
