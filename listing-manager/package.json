@@ -2,7 +2,7 @@
   "name": "listing-manager",
   "version": "1.0.0",
   "description": "Manages the OpenBazaar listings for P2P VPS marketplace",
-  "main": "listingManager.js",
+  "main": "listing-manager.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
