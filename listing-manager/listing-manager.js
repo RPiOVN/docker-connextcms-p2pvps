@@ -210,7 +210,7 @@ const notificationTimer = setInterval(function() {
 checkNotifications();
 
 // Amount of time (mS) a device can go without checking in.
-const MAX_DELAY = 60000 * 15; // 10 minutes.
+const MAX_DELAY = 60000 * 6; // 10 minutes.
 
 // Check all rented devices to ensure their connection is active.
 function checkRentedDevices() {
