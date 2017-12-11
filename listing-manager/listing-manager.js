@@ -279,7 +279,7 @@ const checkRentedDevicesTimer = setInterval(function() {
 
 // Check all listings in the OB market to ensure their connection is active.
 function checkListedDevices() {
-  debugger;
+  //debugger;
 
   const config = {
     apiCredentials: apiCredentials,
@@ -292,7 +292,7 @@ function checkListedDevices() {
 
       // Loop through each device.
       .then(async listings => {
-        debugger;
+        //debugger;
 
         for (let i = 0; i < listings.length; i++) {
           // Get device ID from listing slug
