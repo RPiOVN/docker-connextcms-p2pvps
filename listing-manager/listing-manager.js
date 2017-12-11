@@ -209,6 +209,9 @@ const notificationTimer = setInterval(function() {
 }, 120000);
 checkNotifications();
 
+// Amount of time (mS) a device can go without checking in.
+const MAX_DELAY = 60000 * 5; // 10 minutes.
+
 // Check all rented devices to ensure their connection is active.
 function checkRentedDevices() {
   //debugger;
@@ -226,9 +229,6 @@ function checkRentedDevices() {
 
         // Get the devicePublicModel for this device.
         const publicData = await util.getDevicePublicModel(thisDeviceId);
-
-        // Amount of time (mS) a device can go without checking in.
-        const MAX_DELAY = 60000 * 5; // 5 minutes.
 
         const checkinTimeStamp = new Date(publicData.checkinTimeStamp);
         const now = new Date();
@@ -303,9 +303,6 @@ function checkListedDevices() {
           // Get the devicePublicModel for the current listing.
           const publicData = await util.getDevicePublicModel(thisDeviceId);
 
-          // Amount of time (mS) a device can go without checking in.
-          const MAX_DELAY = 60000 * 5; // 5 minutes.
-
           const checkinTimeStamp = new Date(publicData.checkinTimeStamp);
           const now = new Date();
           const delay = now.getTime() - checkinTimeStamp.getTime();
@@ -345,8 +342,10 @@ function checkListedDevices() {
             );
           }
 
+          const expiration = new Date(publicData.expiration);
+
           // If the device expiration date has been reached, remove the listing.
-          if (publicData.expiration.getTime() < now.getTime()) {
+          if (expiration.getTime() < now.getTime()) {
             return util
               .removeOBListing(publicData)
               .then(val => {
