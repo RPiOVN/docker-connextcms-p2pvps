@@ -173,7 +173,15 @@ function checkNotifications() {
       if (devicePublicData === undefined) return null;
       //debugger;
 
-      util.removeOBListing(devicePublicData);
+      util
+        .removeOBListing(devicePublicData)
+        .then(val => {
+          console.log(`OB listing for ${devicePublicData._id} successfully removed.`);
+        })
+        .catch(err => {
+          console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+          console.error(JSON.stringify(err, null, 2));
+        });
     })
 
     .catch(function(err) {
