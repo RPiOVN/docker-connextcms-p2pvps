@@ -210,7 +210,7 @@ const notificationTimer = setInterval(function() {
 checkNotifications();
 
 // Amount of time (mS) a device can go without checking in.
-const MAX_DELAY = 60000 * 5; // 10 minutes.
+const MAX_DELAY = 60000 * 10; // 10 minutes.
 
 // Check all rented devices to ensure their connection is active.
 function checkRentedDevices() {
@@ -319,21 +319,23 @@ function checkListedDevices() {
                 // Remove the listing from the OB store.
                 .then(() => {
                   debugger;
-                  return util
-                    .removeOBListing(publicData)
-                    .then(val => {
-                      console.log(`OB listing for ${thisDeviceId} successfully removed.`);
-                    })
-                    .catch(err => {
-                      console.error(`Could not remove OB listing for ${thisDeviceId}`);
-                      if (err.statusCode >= 500) {
-                        console.error(
-                          `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
-                        );
-                      } else {
-                        console.error(JSON.stringify(err, null, 2));
-                      }
-                    });
+                  return (
+                    util
+                      .removeOBListing(publicData)
+                      //.then(val => {
+                      //  console.log(`OB listing for ${thisDeviceId} successfully removed.`);
+                      //})
+                      .catch(err => {
+                        console.error(`Could not remove OB listing for ${thisDeviceId}`);
+                        if (err.statusCode >= 500) {
+                          console.error(
+                            `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
+                          );
+                        } else {
+                          console.error(JSON.stringify(err, null, 2));
+                        }
+                      })
+                  );
                 })
 
                 .then(() => {

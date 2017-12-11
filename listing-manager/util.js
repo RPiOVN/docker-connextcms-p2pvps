@@ -310,9 +310,9 @@ function removeOBListing(deviceData) {
       if (!data.success)
         throw `Could not remove device ${obContractId} from rentedDevices list model.`;
 
-      console.log(
-        `Successfully removed listing on OB store with obContract model ID ${obContractId}`
-      );
+      //console.log(
+      //  `Successfully removed listing on OB store with obContract model ID ${obContractId}`
+      //);
       return true;
     })
     .catch(err => {
