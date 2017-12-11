@@ -346,8 +346,10 @@ function checkListedDevices() {
           debugger;
           const expiration = new Date(publicData.expiration);
 
+          const BUFFER = 60000 * 5; // Time to wait for client to voluntarily re-register.
+
           // If the device expiration date has been reached, remove the listing.
-          if (expiration.getTime() < now.getTime()) {
+          if (expiration.getTime() < now.getTime() + BUFFER) {
             return util
               .removeOBListing(publicData)
               .then(val => {
