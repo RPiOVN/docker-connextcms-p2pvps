@@ -180,7 +180,13 @@ function checkNotifications() {
         })
         .catch(err => {
           console.error(`Could not remove OB listing for ${devicePublicData._id}`);
-          console.error(JSON.stringify(err, null, 2));
+          if (err.statusCode >= 500) {
+            console.error(
+              `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
+            );
+          } else {
+            console.error(JSON.stringify(err, null, 2));
+          }
         });
     })
 
@@ -316,7 +322,21 @@ function checkListedDevices() {
                 // Remove the listing from the OB store.
                 .then(() => {
                   debugger;
-                  return util.removeOBListing(publicData);
+                  return util
+                    .removeOBListing(publicData)
+                    .then(val => {
+                      console.log(`OB listing for ${devicePublicData._id} successfully removed.`);
+                    })
+                    .catch(err => {
+                      console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+                      if (err.statusCode >= 500) {
+                        console.error(
+                          `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
+                        );
+                      } else {
+                        console.error(JSON.stringify(err, null, 2));
+                      }
+                    });
                 })
 
                 .then(() => {
@@ -329,11 +349,35 @@ function checkListedDevices() {
           if (publicData.expiration.getTime() < now.getTime()) {
             return util
               .removeOBListing(publicData)
-
-              .then(() => {
+              .then(val => {
+                console.log(`OB listing for ${devicePublicData._id} successfully removed.`);
+              })
+              .catch(err => {
+                console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+                if (err.statusCode >= 500) {
+                  console.error(
+                    `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
+                  );
+                } else {
+                  console.error(JSON.stringify(err, null, 2));
+                }
+              });
+              .then(val => {
                 console.log(
-                  `OB listing for ${thisDeviceId} has been removed due to expiration date reached.`
+                  `OB listing for ${
+                    devicePublicData._id
+                  } has been removed due to expiration date reached.`
                 );
+              })
+              .catch(err => {
+                console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+                if (err.statusCode >= 500) {
+                  console.error(
+                    `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
+                  );
+                } else {
+                  console.error(JSON.stringify(err, null, 2));
+                }
               });
           }
         }
