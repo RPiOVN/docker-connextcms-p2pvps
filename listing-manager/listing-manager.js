@@ -341,7 +341,7 @@ function checkListedDevices() {
                 })
             );
           }
-
+          debugger;
           const expiration = new Date(publicData.expiration);
 
           // If the device expiration date has been reached, remove the listing.
