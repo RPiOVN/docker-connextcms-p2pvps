@@ -350,19 +350,6 @@ function checkListedDevices() {
             return util
               .removeOBListing(publicData)
               .then(val => {
-                console.log(`OB listing for ${devicePublicData._id} successfully removed.`);
-              })
-              .catch(err => {
-                console.error(`Could not remove OB listing for ${devicePublicData._id}`);
-                if (err.statusCode >= 500) {
-                  console.error(
-                    `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
-                  );
-                } else {
-                  console.error(JSON.stringify(err, null, 2));
-                }
-              });
-              .then(val => {
                 console.log(
                   `OB listing for ${
                     devicePublicData._id
