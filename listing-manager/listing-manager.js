@@ -322,10 +322,10 @@ function checkListedDevices() {
                   return util
                     .removeOBListing(publicData)
                     .then(val => {
-                      console.log(`OB listing for ${devicePublicData._id} successfully removed.`);
+                      console.log(`OB listing for ${thisDeviceId} successfully removed.`);
                     })
                     .catch(err => {
-                      console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+                      console.error(`Could not remove OB listing for ${thisDeviceId}`);
                       if (err.statusCode >= 500) {
                         console.error(
                           `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
@@ -350,13 +350,11 @@ function checkListedDevices() {
               .removeOBListing(publicData)
               .then(val => {
                 console.log(
-                  `OB listing for ${
-                    devicePublicData._id
-                  } has been removed due to expiration date reached.`
+                  `OB listing for ${thisDeviceId} has been removed due to expiration date reached.`
                 );
               })
               .catch(err => {
-                console.error(`Could not remove OB listing for ${devicePublicData._id}`);
+                console.error(`Could not remove OB listing for ${thisDeviceId}`);
                 if (err.statusCode >= 500) {
                   console.error(
                     `There was an issue with finding the listing on the OpenBazaar server. Skipping.`
@@ -385,6 +383,7 @@ function checkListedDevices() {
         } else if (err.statusCode === 502) {
           console.error("Connection to the server was refused. Will try again.");
         } else {
+          if (err.message) console.error(`Error message: ${err.message}`);
           console.error(JSON.stringify(err, null, 2));
         }
       })
