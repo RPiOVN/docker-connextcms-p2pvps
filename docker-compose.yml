@@ -11,7 +11,11 @@ openbazaar:
    - "4002:4002"
    - "9005:9005"
   volumes:
-   - ./openBazaar/data:/var/lib/openbazaar
+   - ./open-bazaar/data:/var/lib/openbazaar
+  restart: always
+
+listing-manager:
+  image: listing-manager
   restart: always
 
 mongodb:
@@ -31,7 +35,7 @@ connextcms:
     - openbazaar
   ports:
     - "3001:3000"  # ConnextCMS serves website on this port
-    - "9229:9229"  # Node v8 inspector runs on this port
+    - "9228:9229"  # Node v8 inspector runs on this port
   volumes:
     - ./theme:/home/connextcms/theme
     - ./plugins:/home/connextcms/plugins

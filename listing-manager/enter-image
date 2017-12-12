@@ -1,0 +1,2 @@
+#!/bin/bash
+docker container run --name listing-manager --rm -it listing-manager /bin/bash

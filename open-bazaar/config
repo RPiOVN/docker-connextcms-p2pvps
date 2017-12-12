@@ -143,6 +143,6 @@
     "RPCPassword": "",
     "RPCUser": "",
     "TrustedPeer": "",
-    "Type": "spvwallet"
+    "Type": "bitcoincash"
   }
 }
